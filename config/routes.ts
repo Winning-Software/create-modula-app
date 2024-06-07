@@ -1,5 +1,5 @@
 import { IRoute } from '@dannyxcii/modula';
-import HomePage from '../src/Component/HomePage';
+import HomePage from '../src/components/pages/HomePage';
 
 const routes: IRoute[] = [
     {
