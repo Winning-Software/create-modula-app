@@ -1,10 +1,5 @@
-const globals: IGlobals = {
+const globals = {
     appName: 'My Modula App',
 };
-
-interface IGlobals
-{
-    appName: string;
-}
 
 export { globals };

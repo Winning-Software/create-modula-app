@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const source = path.join(__dirname, '..');
-const projectName = process.argv[2] ?? 'create-ts-app';
+const projectName = process.argv[2] ?? 'create-modula-app';
 const { program } = require('commander');
 const filesToExclude = ['installer', 'node_modules', '.git', '.idea', 'CHANGELOG.md', '.gitignore'];
 const packageJson = require(path.join(source, 'package.json'));

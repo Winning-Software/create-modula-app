@@ -7,12 +7,14 @@
     "watch": "webpack --config webpack.config.js --mode=development --watch",
     "serve": "cd ./public && npx serve"
   },
+  "bin": {
+    "create-modula-app": "installer/installer"
+  },
   "devDependencies": {
     "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.0",
     "glob": "^10.4.1",
     "ignore-emit-webpack-plugin": "^2.0.6",
-    "mini-css-extract-plugin": "^2.9.0",
     "sass": "^1.77.2",
     "sass-loader": "^14.2.1",
     "style-loader": "^4.0.0",
