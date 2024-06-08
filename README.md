@@ -1,7 +1,7 @@
 # Create Modula App
 
 <!-- Version Badge -->
-<img src="https://img.shields.io/badge/Version-0.2.0-blue" alt="Version 0.2.0">
+<img src="https://img.shields.io/badge/Version-0.3.0-blue" alt="Version 0.3.0">
 
 Creates a new boilerplate application using the ModulaJS library - a component 
 based front end SPA.
@@ -320,21 +320,23 @@ your API.
 By default, the API server is currently set to run on port 3001, so make sure this is clear
 before attempting to start your server.
 
-Here is a more detailed example showing how you might query the API from within a component:
+Here is a more detailed component than previous examples, showing how you might query the API from within a component:
 
 ```typescript
-export default class WeatherWidget
+import { Component, html } from '@dannyxcii/modula';
+
+export default class WeatherWidget extends Component
 {
-    protected async fetchData(): Promise<any>
+    protected async fetchData(): Promise<IWeatherData>
     {
         const data = fetch('http://localhost:3001/api/get-weekly-weather-forecast')
             .then(res => {
                 return res.json();
             });
-        
+
         return Promise.resolve(data);
     }
-    
+
     protected template(): HTMLElement
     {
         if (!this.data) {
@@ -342,10 +344,10 @@ export default class WeatherWidget
                 <loading-spinner></loading-spinner>
             `;
         }
-        
-        let el: html = html``;
-        
-        this.data.days.forEach(day => {
+
+        let el: HTMLElement = html``;
+
+        this.data.days.forEach((day: IWeatherDay) => {
             el.append(html`
                 <div class="day">
                     <span class="day-name">${day.name}</span>
@@ -354,14 +356,21 @@ export default class WeatherWidget
                 </div>
             `);
         });
-        
+
         return el;
     }
 }
 
 interface IWeatherData
 {
-    days: [{name: string; high: number; low: number;}];
+    days: IWeatherDay[];
+}
+
+interface IWeatherDay
+{
+    name: string;
+    high: number;
+    low: number;
 }
 ```
 

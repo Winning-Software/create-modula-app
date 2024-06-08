@@ -10,8 +10,8 @@ export default class AppTemplate extends Component
     protected template(): HTMLElement
     {
         return html`
+            <app-header></app-header>
             <main>
-                <app-header></app-header>
                 <slot></slot>
             </main>
         `;
