@@ -6,10 +6,6 @@ const routes: IRoute[] = [
         path: '/',
         component: HomePage
     },
-    {
-        path: '/test',
-        component: HomePage
-    },
 ];
 
 export default routes;
