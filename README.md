@@ -347,7 +347,7 @@ export default class WeatherWidget extends Component
 
         let el: HTMLElement = html``;
 
-        this.data.days.forEach((day: IWeatherDay) => {
+        this.data.forEach((day: IWeatherDay) => {
             el.append(html`
                 <div class="day">
                     <span class="day-name">${day.name}</span>
