@@ -273,3 +273,17 @@ export default class MyComponent extends Component
 
 > If you import your SCSS files outside the fetchData method, you will need to manually reference the import
 > variable inside your template method in order for styles to be correctly displayed
+
+In your SCSS, you can keep things scoped by using your newly defined component tag:
+
+```scss
+my-component {
+  p {
+    ...
+  }
+}
+```
+
+> When referencing a custom element in SCSS, you may need to add this component to your IDE's list of custom elements
+> just to avoid annoying highlighting - in most IDE's this is as simple as hovering over the element in your SCSS file 
+> and selecting the option along the lines of "Add to custom elements"
