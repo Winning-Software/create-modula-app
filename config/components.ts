@@ -1,8 +1,7 @@
 import { IComponentDefinition } from '@dannyxcii/modula';
-import HomePage from '../src/components/pages/HomePage';
-import AppTemplate from '../src/components/AppTemplate';
-import AppFooter from '../src/components/partials/AppFooter';
 import AppHeader from '../src/components/partials/AppHeader';
+import AppTemplate from '../src/components/AppTemplate';
+import HomePage from '../src/components/pages/HomePage';
 
 const components: IComponentDefinition[] = [
     {
@@ -14,13 +13,9 @@ const components: IComponentDefinition[] = [
         component: AppTemplate
     },
     {
-        tag: 'app-footer',
-        component: AppFooter
-    },
-    {
         tag: 'app-header',
         component: AppHeader
-    },
+    }
 ];
 
 export default components;

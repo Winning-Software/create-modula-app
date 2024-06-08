@@ -1,13 +1,21 @@
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const glob = require('glob');
 const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
-const entries = {
-	app: './src/app.ts',
-	styles: './src/styles/app.scss'
-}
+let entries = glob.sync('./src/styles/components/**/*.scss').reduce((acc, filePath) => {
+	const entry = filePath.replace('src\\styles\\components\\', '')
+        .replace('.scss', '');
+	acc[entry] = './' + filePath;
+
+    return acc;
+}, {});
+
+// Manually add app.ts as an entry point
+entries['app'] = './src/app.ts';
+entries['appStyles'] = './src/styles/app.scss';
+
 const ignoreFiles = Object.keys(entries).reduce((acc, key) => {
 	if (entries[key].endsWith('.scss')) {
 		acc.push(`${key}.js`);
@@ -31,7 +39,7 @@ module.exports = (env, options) => {
 				{
 					test: /\.s[ac]ss$/i,
 					use: [
-						MiniCssExtractPlugin.loader,
+						'style-loader',
 						'css-loader',
 						'sass-loader'
 					],
@@ -40,9 +48,6 @@ module.exports = (env, options) => {
 			],
 		},
 		plugins: [
-			new MiniCssExtractPlugin({
-				filename: 'styles/[name].css',
-			}),
 			new IgnoreEmitPlugin(ignoreFiles)
 		],
 		optimization: isProduction ? {
@@ -50,7 +55,10 @@ module.exports = (env, options) => {
 			minimizer: [
 				new TerserPlugin(),
 				new CssMinimizerPlugin(),
-			]
+			],
+			splitChunks: {
+				chunks: 'all',
+			}
 		} : {},
 		resolve: {
 			extensions: ['.ts', '.js', '.css', '.scss']

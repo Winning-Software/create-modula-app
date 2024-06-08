@@ -1,6 +1,13 @@
+@import 'variables';
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: $fontFamily;
+}
+
+.italic-bold {
+    font-weight: 700;
+    font-style: italic;
 }

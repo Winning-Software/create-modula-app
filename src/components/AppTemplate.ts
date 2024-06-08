@@ -2,14 +2,18 @@ import { Component, html } from '@dannyxcii/modula';
 
 export default class AppTemplate extends Component
 {
-    template(): HTMLElement
+    protected async fetchData(): Promise<any>
+    {
+        await import('../styles/app.scss');
+    }
+
+    protected template(): HTMLElement
     {
         return html`
-            <app-header></app-header>
             <main>
+                <app-header></app-header>
                 <slot></slot>
             </main>
-            <app-footer></app-footer>
         `;
     }
 }

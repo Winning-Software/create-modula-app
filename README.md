@@ -9,7 +9,13 @@ way for Modula to be used.
 npx @dannyxcii/create-modula-app app-name
 ```
 
+This creates a new Modula project called `app-name` inside your current working 
+directory.
+
 ## Getting Started
+
+After creating your application, take some time to familiarise yourself with the existing
+project layout.
 
 ## Routing
 
