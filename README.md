@@ -1,7 +1,7 @@
 # Create Modula App
 
 <!-- Version Badge -->
-<img src="https://img.shields.io/badge/Version-0.1.1-blue" alt="Version 0.1.1">
+<img src="https://img.shields.io/badge/Version-0.2.0-blue" alt="Version 0.2.0">
 
 Creates a new boilerplate application using the ModulaJS library - a component 
 based front end SPA.
@@ -287,3 +287,92 @@ my-component {
 > When referencing a custom element in SCSS, you may need to add this component to your IDE's list of custom elements
 > just to avoid annoying highlighting - in most IDE's this is as simple as hovering over the element in your SCSS file 
 > and selecting the option along the lines of "Add to custom elements"
+
+## Running Your Modula App
+
+When you're ready to compile and run your application, you can run your application with the serve command.
+
+```shell
+npm run serve
+```
+
+This will start watching Typescript files in your `src` directory for changes, start your application server (usually on
+port 3000) and start your API server (on port 3001). You should now be able to visit your application at 
+`http://localhost:3000` - or using a different port if 3000 was busy.
+
+Please note, there is currently no built-in support for hot module reloading, so you will need to reload your browser 
+pages in order to see changes.
+
+## API Server
+
+> Available from version 0.2.0
+
+Modula now includes an API server out of the box. The API server is a small express server
+designed to run parallel to your application.
+
+The purpose of the API server is to provide your application with a way to send 
+requests containing sensitive information, in a way that the client can't see it.
+
+For example, you may need to send a request containing a personalised API token. Now, instead
+of doing so directly inside your components `fetchData` methods, your components can instead query
+your API.
+
+By default, the API server is currently set to run on port 3001, so make sure this is clear
+before attempting to start your server.
+
+Here is a more detailed example showing how you might query the API from within a component:
+
+```typescript
+export default class WeatherWidget
+{
+    protected async fetchData(): Promise<any>
+    {
+        const data = fetch('http://localhost:3001/api/get-weekly-weather-forecast')
+            .then(res => {
+                return res.json();
+            });
+        
+        return Promise.resolve(data);
+    }
+    
+    protected template(): HTMLElement
+    {
+        if (!this.data) {
+            return html`
+                <loading-spinner></loading-spinner>
+            `;
+        }
+        
+        let el: html = html``;
+        
+        this.data.days.forEach(day => {
+            el.append(html`
+                <div class="day">
+                    <span class="day-name">${day.name}</span>
+                    <span class="low">${day.low} degrees</span>
+                    <span class="high">${day.high} degrees</span>
+                </div>
+            `);
+        });
+        
+        return el;
+    }
+}
+
+interface IWeatherData
+{
+    days: [{name: string; high: number; low: number;}];
+}
+```
+
+The API server script can be found at `api/api.js`. You can modify this to handle the request sent by the component:
+
+```javascript
+apiRouter.get('/get-weekly-weather-forecast', async (req, res) => {
+    const weatherData = await fetch(`http://some.weather.api?key=${apiKeys.mySecretApiKey}`).then(res => res.json());
+    
+    res.json(weatherData);
+});
+```
+
+This will make the `/api/get-weekly-weather-forecast` endpoint available.

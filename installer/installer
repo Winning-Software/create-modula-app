@@ -31,6 +31,7 @@ import('chalk').then(module => {
     }
 
     copyFolderToSync(source, projectPath);
+    createKeysFile(projectPath);
     modifyPackageJson(chalk);
     createGitignoreFiles(projectPath);
     printCommandSuccessText(chalk);
@@ -81,7 +82,7 @@ function printCommandSuccessText(chalk)
 {
     console.log();
     console.log(chalk.greenBright('Success: Application Created'));
-    console.log(chalk.italic('Now run:', chalk.yellow(`cd ${projectName} && npm install && npm run dev`)));
+    console.log(chalk.italic('Now run:', chalk.yellow(`cd ${projectName} && npm install && npm run serve`)));
 }
 
 function createGitignoreFiles(destination)
@@ -91,4 +92,16 @@ function createGitignoreFiles(destination)
 
     fs.writeFileSync(path.join(destination, '.gitignore'), baseGitignoreContent.trim());
     fs.writeFileSync(path.join(destination, 'public/assets', '.gitignore'), assetsGitignoreContent.trim());
+}
+
+function createKeysFile(destination) {
+    const keysFileContent = `
+    const apiKeys = {
+        mySecretApiKey: '',
+    }
+    
+    module.exports = apiKeys;
+    `.trim();
+
+    fs.writeFileSync(path.join(destination, 'config', 'keys.js'), keysFileContent);
 }
