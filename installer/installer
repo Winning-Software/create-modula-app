@@ -88,7 +88,7 @@ function printCommandSuccessText(chalk)
 function createGitignoreFiles(destination)
 {
     const baseGitignoreContent = "/.idea\n/node_modules";
-    const assetsGitignoreContent = "/*\n!.gitignore";
+    const assetsGitignoreContent = "*\n!.gitignore";
 
     fs.writeFileSync(path.join(destination, '.gitignore'), baseGitignoreContent.trim());
     fs.writeFileSync(path.join(destination, 'public/assets', '.gitignore'), assetsGitignoreContent.trim());
@@ -96,11 +96,11 @@ function createGitignoreFiles(destination)
 
 function createKeysFile(destination) {
     const keysFileContent = `
-    const apiKeys = {
-        mySecretApiKey: '',
-    }
-    
-    module.exports = apiKeys;
+const apiKeys = {
+    mySecretApiKey: '',
+}
+
+module.exports = apiKeys;
     `.trim();
 
     fs.writeFileSync(path.join(destination, 'config', 'keys.js'), keysFileContent);
