@@ -1,6 +1,6 @@
-import { Component, html } from '@dannyxcii/modula';
+import { html, TemplateComponent } from '@dannyxcii/modula';
 
-export default class AppTemplate extends Component
+export default class AppTemplate extends TemplateComponent
 {
     protected async fetchData(): Promise<any>
     {

@@ -1,6 +1,6 @@
-import { Component, html } from '@dannyxcii/modula';
+import { html, PageComponent } from '@dannyxcii/modula';
 
-export default class HomePage extends Component
+export default class HomePage extends PageComponent
 {
     protected async fetchData(): Promise<any>
     {

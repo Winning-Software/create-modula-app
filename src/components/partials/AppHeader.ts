@@ -8,7 +8,7 @@ export default class AppHeader extends Component
         await import('../../styles/components/AppHeader.scss');
 
         return Promise.resolve({
-            appName: globals.appName
+            appName: globals.appName,
         });
     }
 

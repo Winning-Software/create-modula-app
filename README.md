@@ -1,10 +1,29 @@
 # Create Modula App
 
 <!-- Version Badge -->
-<img src="https://img.shields.io/badge/Version-0.3.0-blue" alt="Version 0.3.0">
+<img src="https://img.shields.io/badge/Version-0.4.0-blue" alt="Version 0.4.0">
 
 Creates a new boilerplate application using the ModulaJS library - a component 
 based front end SPA.
+
+---
+
+### Table of Contents
+
+- [Installation](#installation)
+- [Developer Note](#developer-note)
+- [The App Instance](#the-app-instance)
+- [Routing](#routing)
+- [Components](#components)
+    - [Page Components](#page-components)
+    - [Template Components](#template-components)
+    - [Partial Components](#partial-components)
+- [Route Parameters](#route-parameters)
+- [Component Properties (HTML Attributes)](#component-properties-html-attributes)
+- [Data](#data)
+- [Styling](#styling)
+- [Running Your Modula App](#running-your-modula-app)
+- [API Server](#api-server)
 
 ## Installation
 
@@ -70,8 +89,8 @@ in the components section.
 
 ## Components
 
-Components are an integral part of a Modula app and can be incredibly simple to use. All "types" of component
-extend `Component`, the definitions below are merely based on how the components can be used.
+Components are an integral part of a Modula app and can be incredibly simple to use. There are three types of components 
+that you can use.
 
 ### Page Components
 
@@ -82,9 +101,9 @@ First of all, *Page* components are components intended to represent a page, or 
 A basic page component might look something like this:
 
 ```typescript
-import { Component, html } from '@dannyxcii/modula';
+import { PageComponent, html } from '@dannyxcii/modula';
 
-export default class AboutPage
+export default class AboutPage extends PageComponent
 {
     template()
     {
@@ -129,8 +148,11 @@ const routes: IRoute[] = [
 Template components are components that are used to wrap your entire application - great for including
 things like headers/footers or other components you may wish to display on every page.
 
-These can be created and defined in the same way as page components, but it is important to make sure your
-template component renders a `<slot></slot>` tag - this is where all your pages will be rendered.
+These can be created and defined in the same way as page components, making sure to extend `TemplateComponent` instead 
+of `PageComponent`.
+
+It is important to make sure your template component renders a `<slot></slot>` tag - this is where all your pages 
+will be rendered.
 
 > If your template does not render a slot, your template will still work, however pages will be rendered
 > outside your template
@@ -144,8 +166,8 @@ template: MyTemplateComponent
 
 ### Partial Components
 
-Partial components are components that are intended to be used within other components. These can be created 
-and defined in the same way as page or template components and may be used within other components:
+Partial components are components that are intended to be used within other components. Partial components are all those
+that extend `Component`. Partial components can even be used within other components:
 
 ```typescript
 template()
@@ -198,6 +220,25 @@ template()
     return html`
         <strong>User ID:</strong> ${this.props.userId}
     `;
+}
+```
+
+You can explicitly define the interface that your components props will use:
+
+```typescript
+export default class MyComponent extends Component<IMyComponentProps>
+{
+    template()
+    {
+        return html`
+            <h1>${this.props.name}</h1>
+        `;
+    }
+}
+
+interface IMyComponentProps
+{
+    name: string;
 }
 ```
 
@@ -255,6 +296,8 @@ template()
     `;
 }
 ```
+
+See the [API Server](#api-server) section for more examples of fetching and using data withing components.
 
 ## Styling
 
@@ -378,7 +421,9 @@ The API server script can be found at `api/api.js`. You can modify this to handl
 
 ```javascript
 apiRouter.get('/get-weekly-weather-forecast', async (req, res) => {
-    const weatherData = await fetch(`http://some.weather.api?key=${apiKeys.mySecretApiKey}`).then(res => res.json());
+    const weatherData = await fetch(`http://some.weather.api?key=${apiKeys.mySecretApiKey}`)
+            .then(res => res.json())
+            .then(res => res.response);
     
     res.json(weatherData);
 });
