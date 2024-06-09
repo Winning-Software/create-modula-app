@@ -1,6 +1,6 @@
 # Create Modula App Changelog
 
-## [0.3.1] - 2024-06-09
+## [0.4.3] - 2024-06-09
 ### Added
 - N/A
 
