@@ -101,11 +101,11 @@ First of all, *Page* components are components intended to represent a page, or 
 A basic page component might look something like this:
 
 ```typescript
-import { PageComponent, html } from '@dannyxcii/modula';
+import { html, PageComponent } from '@dannyxcii/modula';
 
 export default class AboutPage extends PageComponent
 {
-    template()
+    template(): HTMLElement
     {
         return html`
             <h1>About Page</h1>
