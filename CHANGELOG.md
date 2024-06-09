@@ -1,5 +1,26 @@
 # Create Modula App Changelog
 
+## [0.4.3] - 2024-06-09
+### Added
+- N/A
+
+### Changed
+- N/A
+
+### Deprecated
+- N/A
+
+### Removed
+- N/A
+
+### Fixed
+- Included `config/keys.js` in default `.gitignore` file
+
+### Security
+- N/A
+
+---
+
 ## [0.4.2] - 2024-06-09
 ### Added
 - N/A
@@ -11,6 +32,9 @@
 - N/A
 
 ### Removed
+- N/A
+
+### Fixed
 - N/A
 
 ### Security
@@ -31,6 +55,9 @@
 ### Removed
 - Remove comments from bundle JS
 
+### Fixed
+- N/A
+
 ### Security
 - N/A
 
@@ -48,6 +75,9 @@
 - N/A
 
 ### Removed
+- N/A
+
+### Fixed
 - N/A
 
 ### Security

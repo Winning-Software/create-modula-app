@@ -87,7 +87,7 @@ function printCommandSuccessText(chalk)
 
 function createGitignoreFiles(destination)
 {
-    const baseGitignoreContent = "/.idea\n/node_modules";
+    const baseGitignoreContent = "/.idea\n/node_modules\n/config/keys.js";
     const assetsGitignoreContent = "*\n!.gitignore";
 
     fs.writeFileSync(path.join(destination, '.gitignore'), baseGitignoreContent.trim());
