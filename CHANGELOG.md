@@ -1,5 +1,23 @@
 # Create Modula App Changelog
 
+## [0.4.2] - 2024-06-09
+### Added
+- N/A
+
+### Changed
+- API requests now log requests to the console
+
+### Deprecated
+- N/A
+
+### Removed
+- N/A
+
+### Security
+- N/A
+
+---
+
 ## [0.4.1] - 2024-06-09
 ### Added
 - N/A

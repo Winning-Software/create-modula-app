@@ -6,6 +6,10 @@ const apiRouter = express.Router();
 const apiKeys = require('./../config/keys');
 
 app.use(cors());
+app.use((req, res, next) => {
+    console.log(`API Request Received to ${req.path}`);
+    next();
+});
 
 apiRouter.get('/', (req, res) => {
     res.json({
