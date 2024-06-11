@@ -1,7 +1,7 @@
 # Create Modula App
 
 <!-- Version Badge -->
-<img src="https://img.shields.io/badge/Version-0.4.3-blue" alt="Version 0.4.3">
+<img src="https://img.shields.io/badge/Version-0.5.0-blue" alt="Version 0.5.0">
 
 Creates a new boilerplate application using the ModulaJS library - a component 
 based front end SPA.
@@ -34,6 +34,14 @@ npx @dannyxcii/create-modula-app app-name
 This creates a new Modula project called `app-name` inside your current working 
 directory.
 
+After creating your new app, navigate to your app directory and run:
+
+```shell
+npm install && npm run serve
+```
+
+This will install all required dependencies and run your application.
+
 ---
 
 ### Developer Note
@@ -58,7 +66,7 @@ option - pass the constructor in the same way the existing/example template is p
 
 ## Routing
 
-All your applications routes can be defined inside `config/routes.ts`. All routes use the `IRoute` interface 
+All your applications front-end routes can be defined inside `config/routes.ts`. All routes use the `IRoute` interface 
 definition:
 
 ```typescript
@@ -299,6 +307,110 @@ template()
 
 See the [API Server](#api-server) section for more examples of fetching and using data withing components.
 
+### Known Issue
+
+Currently, `PageComponent` and `TemplateComponent` files will wait for the result of `fetchData` before loading - 
+therefore you don't need to add separate loading state returns inside their `template` methods.
+
+That being said, when using standard components that extend `Component` that _do_ render before _and_ after data has
+been fetched, it is recommended to make any API calls in your _top level component_.
+
+There is a current known issue whereby child components that make API requests will send these requests twice.
+
+Take the following components as an example:
+
+```typescript
+class ProfileComponent extends Component 
+{
+    protected async fetchData(): Promise<any> 
+    {
+        const data = await fetch('user-stats-endpoint')
+                .then(res => res.json())
+                .then(json => json.response);
+        return Promise.resolve(data);
+    }
+    
+    protected template(): HTMLElement 
+    {
+        return html`
+            <div>
+                <avatar-component userId="1"></avatar-component>
+                <span>Username: ${this.data?.username ?? ''}</span>
+            </div>
+        `;
+    }
+}
+
+class AvatarComponent extends Component<IAvatarComponentProps> 
+{
+    protected async fetchData(): Promise<any> 
+    {
+        const data = await fetch(`avatar-endpoint?user=${this.props.userId}`)
+                .then(res => res.json())
+                .then(json => json.response);
+        
+        return Promise.resolve(data);
+    }
+    
+    protected template(): HTMLElement 
+    {
+        return html`<img src="${this.data?.avatarImg ?? ''}" />`;
+    }
+}
+
+interface IAvatarComponentProps {
+    userId: number;
+}
+```
+
+Because we are re-rendering the `ProfileComponent` once its data has been loaded, we also cause the `AvatarComponent` to
+re-render (before it would be due to re-render from its own data call), thus causing the API request to `avatar-endpoint`
+to fire twice.
+
+Here's how we could modify the above components to work around this limitation:
+
+```typescript
+class ProfileComponent extends Component 
+{
+    protected async fetchData(): Promise<any> 
+    {
+        const data = await fetch('user-stats-endpoint')
+                .then(res => res.json())
+                .then(json => json.response);
+        const avatarImg = await fetch(`avatar-endpoint?user=1`)
+                .then(res => res.json())
+                .then(json => json.response);
+        
+        return Promise.resolve(data);
+    }
+    
+    protected template(): HTMLElement 
+    {
+        return html`
+            <div>
+                <avatar-component avatarImg="${this.data?.avatarImg ?? null}"></avatar-component>
+                <span>Username: ${this.data?.username ?? ''}</span>
+            </div>
+        `;
+    }
+}
+
+class AvatarComponent extends Component<IAvatarComponentProps> 
+{
+    protected template(): HTMLElement {
+        return html`<img src="${this.props.avatarImg ?? ''}" />`;
+    }
+}
+
+interface IAvatarComponentProps 
+{
+    avatarImg: string;
+}
+```
+
+In the example above, both API requests have been moved to the `ProfileComponent` and the `avatarImg` is now being passed
+to the `AvatarComponent` via props, ensuring that each API request only fires once.
+ 
 ## Styling
 
 By default, styling your components is done via SCSS stylesheets within the `src/styles/components` directory
@@ -350,20 +462,19 @@ pages in order to see changes.
 
 > Available from version 0.2.0
 
-Modula now includes an API server out of the box. The API server is a small express server
-designed to run parallel to your application.
+Modula now includes an API server out of the box. The API server is a small express server designed to run parallel to 
+your application.
 
-The purpose of the API server is to provide your application with a way to send 
-requests containing sensitive information, in a way that the client can't see it.
+The purpose of the API server is to provide your application with a way to send requests containing sensitive 
+information, in a way that the client can't see it.
 
-For example, you may need to send a request containing a personalised API token. Now, instead
-of doing so directly inside your components `fetchData` methods, your components can instead query
-your API.
+For example, you may need to send a request containing your personal API token to some external API. Now, instead of 
+doing so directly inside your components `fetchData` methods, your components can instead query your API.
 
-By default, the API server is currently set to run on port 3001, so make sure this is clear
-before attempting to start your server.
+By default, the API server is currently set to run on port 3001, so make sure this is clear before attempting to start 
+your server.
 
-Here is a more detailed component than previous examples, showing how you might query the API from within a component:
+Here is an example showing how you might query the API from within a component:
 
 ```typescript
 import { Component, html } from '@dannyxcii/modula';
@@ -417,10 +528,10 @@ interface IWeatherDay
 }
 ```
 
-The API server script can be found at `api/api.js`. You can modify this to handle the request sent by the component:
+The API server script can be found at `api/api.ts`. You can modify this to handle the request sent by the component:
 
 ```javascript
-apiRouter.get('/get-weekly-weather-forecast', async (req, res) => {
+app.router().get('/get-weekly-weather-forecast', async (req, res) => {
     const weatherData = await fetch(`http://some.weather.api?key=${apiKeys.mySecretApiKey}`)
             .then(res => res.json())
             .then(res => res.response);
@@ -429,4 +540,4 @@ apiRouter.get('/get-weekly-weather-forecast', async (req, res) => {
 });
 ```
 
-This will make the `/api/get-weekly-weather-forecast` endpoint available.
+This will make the `http://localhost:3001/api/get-weekly-weather-forecast` endpoint available.

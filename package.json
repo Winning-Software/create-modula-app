@@ -1,13 +1,13 @@
 {
   "name": "@dannyxcii/create-modula-app",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "scripts": {
     "dev": "webpack --config webpack.config.js --mode=development",
     "build": "webpack --config webpack.config.js --mode=production",
     "watch": "webpack --config webpack.config.js --mode=development --watch",
     "start-api": "nodemon api.js",
     "start-client": "cd ./public && npx serve",
-    "serve": "concurrently \"npm:watch\" \"npm:start-api\" \"npm:start-client\""
+    "serve": "npm run dev && concurrently \"npm:watch\" \"npm:start-api\" \"npm:start-client\""
   },
   "bin": {
     "create-modula-app": "installer/installer"
