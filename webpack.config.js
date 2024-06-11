@@ -3,6 +3,7 @@ const glob = require('glob');
 const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 let entries = glob.sync('./src/styles/components/**/*.scss').reduce((acc, filePath) => {
 	const entry = filePath.replace('src\\styles\\components\\', '')
@@ -24,7 +25,7 @@ const ignoreFiles = Object.keys(entries).reduce((acc, key) => {
 	return acc;
 }, []);
 
-module.exports = (env, options) => {
+const appConfig = (env, options) => {
 	const isProduction = options.mode === 'production';
 
 	return {
@@ -80,3 +81,41 @@ module.exports = (env, options) => {
 		}
 	}
 }
+
+const apiConfig =  {
+	entry: './api/api.ts',
+	module: {
+		rules: [
+			{
+				test: /\.ts?$/,
+				use: 'ts-loader',
+				exclude: /node_modules/
+			},
+		],
+	},
+	optimization: {
+		minimize: true,
+		minimizer: [
+			new TerserPlugin({
+				terserOptions: {
+					format: {
+						comments: false
+					}
+				},
+				extractComments: false
+			}),
+			new CssMinimizerPlugin(),
+		]
+	},
+	resolve: {
+		extensions: ['.ts', '.js']
+	},
+	externals: [nodeExternals()],
+	target: 'node',
+	output: {
+		filename: 'api.js',
+		path: path.resolve(__dirname)
+	}
+};
+
+module.exports = [appConfig, apiConfig];
