@@ -7,4 +7,10 @@ Welcome to the `create-modula-app` repository, the intended way to work with the
 
 Modula is a lightweight, component based TypeScript framework for Single Page Application (SPA) development.
 
+To get started, it's simple:
+
+```shell
+npx @dannyxcii/create-modula-app app-name
+```
+
 Read the full documentation at [modulajs.com](https://modulajs.com)
