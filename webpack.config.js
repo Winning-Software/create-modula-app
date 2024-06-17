@@ -13,7 +13,6 @@ let entries = glob.sync('./src/styles/components/**/*.scss').reduce((acc, filePa
     return acc;
 }, {});
 
-// Manually add app.ts as an entry point
 entries['app'] = './src/app.ts';
 entries['appStyles'] = './src/styles/app.scss';
 
@@ -104,7 +103,6 @@ const apiConfig =  {
 				},
 				extractComments: false
 			}),
-			new CssMinimizerPlugin(),
 		]
 	},
 	resolve: {

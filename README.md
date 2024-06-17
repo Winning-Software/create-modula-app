@@ -1,7 +1,7 @@
 # Create Modula App
 
 <!-- Version Badge -->
-<img src="https://img.shields.io/badge/Version-0.5.0-blue" alt="Version 0.5.0">
+<img src="https://img.shields.io/badge/Version-0.6.0-blue" alt="Version 0.6.0">
 
 Creates a new boilerplate application using the ModulaJS library - a component 
 based front end SPA.
