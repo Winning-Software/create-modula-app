@@ -1,5 +1,26 @@
 # Create Modula App Changelog
 
+## [0.6.0] - 2024-06-17
+### Added
+- Added new `afterMount` method to `Component`
+
+### Changed
+- Removed API classes from project into `@dannyxcii/modula` core
+
+### Deprecated
+- N/A
+
+### Removed
+- N/A
+
+### Fixed
+- N/A
+
+### Security
+- N/A
+
+---
+
 ## [0.5.0] - 2024-06-11
 ### Added
 - N/A
