@@ -1,4 +1,4 @@
-import Application from './classes/Application';
+import { Application } from '@dannyxcii/modula/dist/src/api';
 import { Request, Response } from 'express';
 
 const api: Application = new Application({

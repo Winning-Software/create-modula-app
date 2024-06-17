@@ -1,6 +1,6 @@
 {
   "name": "@dannyxcii/create-modula-app",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "scripts": {
     "dev": "webpack --config webpack.config.js --mode=development",
     "build": "webpack --config webpack.config.js --mode=production",
@@ -34,7 +34,7 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@dannyxcii/modula": "~0.3.0",
+    "@dannyxcii/modula": "^0.4.0",
     "chalk": "~5.3.0",
     "commander": "~12.1.0",
     "cors": "^2.8.5",
