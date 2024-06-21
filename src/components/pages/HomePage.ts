@@ -10,9 +10,17 @@ export default class HomePage extends PageComponent
     protected template(): HTMLElement
     {
         return html`
-            <div>
-                <p>Welcome to your new <span class="italic-bold">Modula</span> application.</p>
-            </div>
+            <p>Welcome to your new Modula application.</p>
+            <p>
+                <a href="https://modulajs.com" target="_blank">
+                    View the Documentation
+                </a>
+            </p>
         `;
+    }
+
+    protected afterMount()
+    {
+
     }
 }

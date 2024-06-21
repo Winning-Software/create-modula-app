@@ -16,4 +16,8 @@ export default class AppTemplate extends TemplateComponent
             </main>
         `;
     }
+
+    protected afterMount(): void
+    {
+    }
 }
