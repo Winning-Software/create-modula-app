@@ -1,5 +1,28 @@
 # Create Modula App Changelog
 
+## [0.7.0] - 2024-06-22
+### Added
+- Added documentation link to default view
+- Added route protection via `requireAuth` option
+- Added `ApplicationStore` for global variable handling
+
+### Changed
+- Basic styling updates
+
+### Deprecated
+- N/A
+
+### Removed
+- N/A
+
+### Fixed
+- Fix issue with external links not working
+
+### Security
+- N/A
+
+---
+
 ## [0.6.0] - 2024-06-17
 ### Added
 - Added new `afterMount` method to `Component`
