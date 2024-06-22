@@ -18,9 +18,4 @@ export default class HomePage extends PageComponent
             </p>
         `;
     }
-
-    protected afterMount()
-    {
-
-    }
 }
